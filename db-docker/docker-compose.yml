@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  mysql-development:
+    image: mysql:8.0.17
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_DATABASE: users
+    ports:
+      - "3306:3306"
+
+  mysql-deveopment:
+    image: mysql:8.0.17
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_DATABASE: users
+    ports:
+      - "3309:3309"
