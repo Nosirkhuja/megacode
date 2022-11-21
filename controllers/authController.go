@@ -208,6 +208,5 @@ func SendToSchool(user model.User) error {
 }
 
 func OrderCollects(c *fiber.Ctx) error {
-
 	return nil
 }
