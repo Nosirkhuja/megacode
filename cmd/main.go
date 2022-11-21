@@ -4,7 +4,6 @@ import (
 	"MegaCode/database"
 	logging "MegaCode/internal/pkg/logger"
 	"MegaCode/internal/pkg/middleware"
-	"MegaCode/internal/pkg/pg"
 	"MegaCode/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -16,10 +15,10 @@ import (
 	"time"
 )
 
-type config struct {
+/*type config struct {
 	HTTPAddr string `envconfig:"HTTP_ADDR" required:"true"`
 	Pg       pg.PgConfig
-}
+}*/
 
 func main() {
 	logger := logging.NewLogger()
