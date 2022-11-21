@@ -8,7 +8,6 @@ import (
 	"MegaCode/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/kelseyhightower/envconfig"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
 	"os"
@@ -25,10 +24,6 @@ type config struct {
 func main() {
 	logger := logging.NewLogger()
 	logger.Info().Msgf("starting %v", time.Now())
-	var cfg config
-	if err := envconfig.Process("", &cfg); err != nil {
-		logger.Error().Msgf("reading config error %v", err)
-	}
 	err := database.Connect()
 	if err != nil {
 		logger.Error().Msgf("database error %v", err)
@@ -40,7 +35,6 @@ func main() {
 	}))
 	app.Use(Middleware.Middleware)
 	routes.Setup(app)
-
 	go func() {
 		err = app.Listen(":8000")
 		if err != nil {
@@ -55,14 +49,12 @@ func main() {
 		r := http.NewServeMux()
 		r.HandleFunc("/metrics", promhttp.Handler().ServeHTTP)
 		srvMetric.Handler = r
-
+		logger.Info().Msgf("metrics start at port %s", srvMetric.Addr)
 		if err := srvMetric.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			logger.Error().Msgf("start metrics server error: %v", err)
 			os.Exit(1)
 		}
-		logger.Info().Msgf("metrics start at port %s", srvMetric.Addr)
 	}()
-	//logger.Info().Msgf("metrics start at port %s", srvMetric.Addr)
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals,
 		os.Interrupt,
